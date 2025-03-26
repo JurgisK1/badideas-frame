@@ -27,13 +27,12 @@
     }
 
     .left-panel {
-      flex: 1 1 400px;
+      flex: 2;
       min-width: 300px;
-      max-width: 500px;
     }
 
     .right-panel {
-      flex: 2 1 600px;
+      flex: 3;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -54,13 +53,14 @@
       background: #fff;
     }
 
-    input[type="file"], input[type="range"] {
+    input[type="file"] {
       margin: 1em 0;
     }
 
     #zoomSlider {
       width: 100%;
       accent-color: #097fe8;
+      margin: 1em 0;
     }
 
     .primary-btn, .secondary-btn {
@@ -104,9 +104,23 @@
       .container {
         flex-direction: column;
       }
+
       .left-panel, .right-panel {
         width: 100%;
         padding: 1.5em;
+      }
+
+      .left-panel {
+        order: 1;
+      }
+
+      .right-panel {
+        order: 2;
+      }
+
+      .zoom-wrapper {
+        order: 3;
+        width: 100%;
       }
     }
   </style>
@@ -118,14 +132,17 @@
     <h1>BADideas.fund 2.0</h1>
     <p>Upload your photo to join the movement</p>
     <input type="file" accept="image/*" id="upload" />
-    <label for="zoomSlider">Zoom:</label>
-    <input type="range" id="zoomSlider" min="0.5" max="2.5" step="0.01" value="1" />
     <button class="primary-btn" onclick="downloadImage()">Download</button>
     <button class="secondary-btn" onclick="resetCanvas()">Start Over</button>
+    <div class="zoom-wrapper">
+      <label for="zoomSlider">Zoom:</label>
+      <input type="range" id="zoomSlider" min="0.5" max="2.5" step="0.01" value="1" />
+    </div>
     <div class="disclaimer">
       No photos are uploaded or stored — everything runs securely in your browser.
     </div>
   </div>
+
   <div class="right-panel">
     <canvas id="canvas" width="1080" height="1080"></canvas>
   </div>
@@ -145,7 +162,7 @@
   let offsetX = 0;
   let offsetY = 0;
   let isDragging = false;
-  let startX, startY;
+  let startX = 0, startY = 0;
 
   frame.onload = () => draw();
 
@@ -185,18 +202,16 @@
 
   canvas.addEventListener('mousedown', function(e) {
     isDragging = true;
-    startX = e.offsetX;
-    startY = e.offsetY;
+    startX = e.clientX;
+    startY = e.clientY;
   });
 
   canvas.addEventListener('mousemove', function(e) {
     if (isDragging) {
-      const dx = e.movementX || e.offsetX - startX;
-      const dy = e.movementY || e.offsetY - startY;
-      offsetX += dx;
-      offsetY += dy;
-      startX = e.offsetX;
-      startY = e.offsetY;
+      offsetX += e.clientX - startX;
+      offsetY += e.clientY - startY;
+      startX = e.clientX;
+      startY = e.clientY;
       draw();
     }
   });
@@ -207,22 +222,18 @@
   canvas.addEventListener('touchstart', function(e) {
     isDragging = true;
     const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    startX = touch.clientX - rect.left;
-    startY = touch.clientY - rect.top;
+    startX = touch.clientX;
+    startY = touch.clientY;
   });
 
   canvas.addEventListener('touchmove', function(e) {
     if (isDragging) {
       e.preventDefault();
       const touch = e.touches[0];
-      const rect = canvas.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      const dx = x - startX;
-      const dy = y - startY;
-      offsetX += dx;
-      offsetY += dy;
+      const x = touch.clientX;
+      const y = touch.clientY;
+      offsetX += x - startX;
+      offsetY += y - startY;
       startX = x;
       startY = y;
       draw();
