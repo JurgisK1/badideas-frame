@@ -100,37 +100,37 @@
       color: #444;
     }
 
-    @media (max-width: 1100px) {
-      .container {
-        flex-direction: column;
-      }
+    @media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
 
-      .left-panel, .right-panel {
-        width: 100%;
-        padding: 1.5em;
-      }
+  .left-panel, .right-panel {
+    width: 100%;
+    padding: 1.5em;
+  }
 
-      .left-panel {
-        order: 1;
-      }
+  .left-panel {
+    order: 1;
+  }
 
-      .right-panel {
-        order: 2;
-      }
+  .right-panel {
+    order: 2;
+  }
 
-      .zoom-wrapper {
-        order: 3;
-        width: 100%;
-      }
-    }
+  .zoom-wrapper {
+    order: 3;
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
 
 <div class="container">
   <div class="left-panel">
-    <h1>BADideas.fund 2.0</h1>
-    <p>Upload your photo to join the movement</p>
+    <h1>Thanks for being part of BADideas.fund</h1>
+    <p>Upload your photo, add our frame, and share it with the world. You’ll find a caption <a href="#blurbs">here</a> you can use or tweak.</p>
     <input type="file" accept="image/*" id="upload" />
     <button class="primary-btn" onclick="downloadImage()">Download</button>
     <button class="secondary-btn" onclick="resetCanvas()">Start Over</button>
