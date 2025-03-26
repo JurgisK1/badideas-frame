@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,38 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BADideas.fund Campaign Frame</title>
   <style>
-    body {
+    html, body {
       font-family: 'Inter', sans-serif;
       background: #ffffff;
       color: #000000;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      overflow-x: hidden;
     }
+
     .container {
       display: flex;
-      flex-direction: row;
+      flex-wrap: wrap;
       min-height: 100vh;
     }
+
     .left-panel, .right-panel {
       padding: 2em;
+      box-sizing: border-box;
     }
+
     .left-panel {
-      width: 100%;
-      max-width: 400px;
+      flex: 1 1 400px;
+      min-width: 300px;
+      max-width: 500px;
     }
+
     .right-panel {
-      flex-grow: 1;
+      flex: 2 1 600px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: flex-start;
       background: #f8f8f8;
     }
+
     h1, p, label, input {
       text-align: left;
       display: block;
       width: 100%;
     }
+
     canvas {
       width: 100%;
       max-width: 100%;
@@ -45,13 +53,16 @@
       border: 1px solid #ccc;
       background: #fff;
     }
+
     input[type="file"], input[type="range"] {
       margin: 1em 0;
     }
+
     #zoomSlider {
       width: 100%;
       accent-color: #097fe8;
     }
+
     .primary-btn, .secondary-btn {
       font-family: 'Inter', sans-serif;
       font-size: 20px;
@@ -62,34 +73,40 @@
       cursor: pointer;
       width: 100%;
     }
+
     .primary-btn {
       background-color: #191918;
       color: white;
       border: none;
     }
+
     .primary-btn:hover {
       background-color: #535352;
     }
+
     .secondary-btn {
       background-color: #ffffff;
       color: #191918;
       border: 2px solid #191918;
     }
+
     .secondary-btn:hover {
       background-color: #F6F5F4;
     }
+
     .disclaimer {
       margin-top: 2em;
       font-size: 0.85em;
       color: #444;
     }
-    @media (max-width: 768px) {
+
+    @media (max-width: 1100px) {
       .container {
         flex-direction: column;
       }
       .left-panel, .right-panel {
         width: 100%;
-        padding: 1em;
+        padding: 1.5em;
       }
     }
   </style>
@@ -174,8 +191,10 @@
 
   canvas.addEventListener('mousemove', function(e) {
     if (isDragging) {
-      offsetX += e.offsetX - startX;
-      offsetY += e.offsetY - startY;
+      const dx = e.movementX || e.offsetX - startX;
+      const dy = e.movementY || e.offsetY - startY;
+      offsetX += dx;
+      offsetY += dy;
       startX = e.offsetX;
       startY = e.offsetY;
       draw();
@@ -200,8 +219,10 @@
       const rect = canvas.getBoundingClientRect();
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
-      offsetX += x - startX;
-      offsetY += y - startY;
+      const dx = x - startX;
+      const dy = y - startY;
+      offsetX += dx;
+      offsetY += dy;
       startX = x;
       startY = y;
       draw();
